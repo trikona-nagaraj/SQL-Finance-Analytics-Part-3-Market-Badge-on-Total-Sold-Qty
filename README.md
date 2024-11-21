@@ -10,8 +10,10 @@ Output:
 - Market Badge
 
 
-'''sql
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_market_badge`(
+```sql
+
+
+CREATE PROCEDURE `get_market_badge`(
 		in in_market varchar(45),
         in in_fiscal_year YEAR,
         out out_market_badge VARCHAR (45)
@@ -41,4 +43,5 @@ BEGIN
         ELSE  SET out_market_badge ='SILVER';
         END IF;
 END
-'''
+
+```
