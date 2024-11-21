@@ -1,1 +1,1 @@
-# SQL-Finance-Analytics-Part-3-Market-Badge---Total-Sold-Quantity
+# SQL Task 3 Market-Badge Total Sold Qty (Finance Analytics)
