@@ -1,47 +1,48 @@
-# SQL Task 3 Market-Badge Total Sold Qty (Finance Analytics)
+## SQL Task 3: Market Badge Total Sold Quantity (Finance Analytics)
 
-Task 3: To create a stored Procedure that can determine the market badge. If total sold quantity > 5 million that market is considered Gold else is silver.
+### Task Overview
+Create a stored procedure to determine a market badge based on total sold quantity for a specific market and fiscal year.  
+- **Gold Badge**: Total sold quantity > 5 million.  
+- **Silver Badge**: Total sold quantity ≤ 5 million.
 
-Inputs will be: 
-- Market
-- Fiscal Year
-  
-Output:
-- Market Badge
+### Inputs and Outputs
+- **Inputs**:
+  - `in_market`: Market name (default is "India").
+  - `in_fiscal_year`: Fiscal year for analysis.
+- **Output**:
+  - `out_market_badge`: Market badge (Gold or Silver).
 
+---
 
+### Stored Procedure Code
 ```sql
-
-
 CREATE PROCEDURE `get_market_badge`(
-		in in_market varchar(45),
-        in in_fiscal_year YEAR,
-        out out_market_badge VARCHAR (45)
+    IN in_market VARCHAR(45), -- Market name input.
+    IN in_fiscal_year YEAR,   -- Fiscal year input.
+    OUT out_market_badge VARCHAR(45) -- Market badge output.
 )
 BEGIN
-		DECLARE qty INT DEFAULT 0;
-		# Declare default Market to be india
-        
-		
-        IF in_market = "" THEN 
-           SET in_market = "india";
-        END IF; 
-        
-        # Retrive total qty sold for market and fiscal year 2021
-        
-		select sum(f.sold_quantity) INTO qty
-		from fact_sales_monthly f 
-        join dim_customer c
-		on f.customer_code = c.customer_code
-		where get_fiscal_year(f.date) = in_fiscal_year
-        and c.market = in_market 
-		group by c.market;
+    DECLARE qty INT DEFAULT 0; -- Variable to store total sold quantity.
 
-		# Determining market badge
-        
-        if qty > 5000000 THEN SET out_market_badge = 'GOLD';
-        ELSE  SET out_market_badge ='SILVER';
-        END IF;
-END
+    -- Default market set to India if input is empty.
+    IF in_market = "" THEN 
+        SET in_market = "india";
+    END IF;
 
+    -- Retrieve total quantity sold for the specified market and fiscal year.
+    SELECT SUM(f.sold_quantity) INTO qty -- Aggregate sold quantity.
+    FROM fact_sales_monthly f
+    JOIN dim_customer c
+    ON f.customer_code = c.customer_code -- Match customer codes.
+    WHERE get_fiscal_year(f.date) = in_fiscal_year -- Filter by fiscal year.
+      AND c.market = in_market -- Filter by market.
+    GROUP BY c.market;
+
+    -- Determine market badge based on total sold quantity.
+    IF qty > 5000000 THEN 
+        SET out_market_badge = 'GOLD'; -- Gold badge if quantity > 5M.
+    ELSE  
+        SET out_market_badge = 'SILVER'; -- Silver badge otherwise.
+    END IF;
+END;
 ```
