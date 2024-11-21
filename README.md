@@ -1,0 +1,1 @@
+# SQL-Finance-Analytics-Part-3-Market-Badge---Total-Sold-Quantity
