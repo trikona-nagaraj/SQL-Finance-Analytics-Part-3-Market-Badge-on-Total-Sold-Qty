@@ -21,7 +21,7 @@ Create a stored procedure to determine a market badge based on total sold quanti
 CREATE PROCEDURE `get_market_badge`(
     IN in_market VARCHAR(45),                       -- Market name input.
     IN in_fiscal_year YEAR,                         -- Fiscal year input.
-    OUT out_market_badge VARCHAR(45) -- Market badge output.
+    OUT out_market_badge VARCHAR(45)                -- Market badge output.
 )
 BEGIN
     DECLARE qty INT DEFAULT 0;                      -- Variable to store total sold quantity.
